@@ -1,0 +1,969 @@
+	1.  node to be installed 
+	>>>>> node -v
+	v8.11.3
+
+	>>>>>>npm -v
+	5.6.0
+
+
+	2. Visual Studio Code:- 
+
+	3. npm install   -g @angular/cli@6.0.7
+
+	4. ng -v 
+
+	5.  Create a new folder angularprojects 
+
+
+
+
+
+
+
+	to create a new project in angular 
+
+	ng new <projectName>
+
+	i am going to create the following  components 
+
+	1.  Navigation Bar 
+	2.  Trailers 
+	3.  Service ---> return which trailers to show 
+	4.  i am going to combine all the things in one single application 
+	5.  i am also going to use some bootstrap css to my application 
+			look responsive 
+	6.  I am later going to add http behaviour 
+
+	ng g  c   /// to create a component 
+	ng g  s   /// to create a service 
+	ng g  d   ///  to create a directive 
+
+	Most of the coding do it with     
+
+	(events) 
+	and Display of data 
+	{{}}
+
+	We will use the internal Directives 
+
+	ngfor 
+	ngif 
+	... 
+
+
+
+
+
+	ng new imdb ---> this creates a new project 
+
+	cd imdb 
+
+	npm install bootstrap@3.3.7
+
+	ng  g  c  navbar 
+	ng  g  c  trailers 
+	ng  g  c  homepage 
+
+	Step 1 :  in app.component.html 
+	and replaced the content with 
+	<app-navbar></app-navbar>
+	<app-homepage></app-homepage>
+	//in homepae 
+	<app-trailers></app-trailers>
+
+	ng serve -o 
+	// checked if the app is up and running 
+
+	Add the boostrap 
+	open your angular.json in the 
+	styles [
+		"", 
+		"./node_modules/bootstrap/dist/css/bootstrap.min.css"
+	]
+
+	copy some nav bar and paste it in your 
+	navbar-component.html 
+
+
+	now open your  trailers
+	trailers-component.html
+		<div class="panel panel-primary">	
+			<div class="panel-heading">{{title}}</div>
+			<div class="panel-body">{{content}}
+				<button class="btn btn-success" (click)="methodName($event)">CLick me<button>
+			</div>
+			<div class="panel-footer">{{footer}}</div>
+		<div>
+
+
+	in your class add a method 
+			methodName(e){
+				console.log(e.target);
+				/// do what you wish to do 
+				e.g change the value of 
+				this.title = xxxxxxxxx..... 
+			}
+
+	Test ... 
+
+
+	Now create a new Service 
+
+	ng  g  s <serviceName>
+
+	only a file with service name..... and spec file  
+
+
+	NOw a Service 
+	is as per angular 6 by default provided in the file itself 
+	and no need to provide it seperately int he app.module.ts 
+
+	A service needs to be injected in a component............. 
+
+	where ----> Constructor 
+
+	The injection is by type 
+	constructor (var:type)
+	{
+		this.var = var 
+
+	}
+
+
+	you can accesss the service 
+
+
+
+
+
+	1.  Services are @Injectible 
+		Services are singleton 
+		Services need to injected in components 
+		Services can have methods which cal call 
+		Services can have state which when changed affects everyone 
+
+
+	2.  componens are @Component 
+		Components have html 
+		Components have selector 
+		Components have stylesheets 
+		Compoents are not singleton 
+		Comoponent carry state 
+		the html needs to display the state as per components state using 
+			{{}}
+
+	3.  The Module  is becuage of @NgModule 
+		currently we are dealing only with Root Module. 
+		modules have app.module.ts (module descriptor)
+		module define  components 
+		module imports other modules 
+		module provide services 
+
+
+	4. 
+
+
+
+
+	To access a http api 
+	1. either you have a api or mocky.io 
+		go and create a webservice here 
+
+	2.  Test the service url and check if its working 
+
+
+	3.  app.module.ts 
+		import {HttpModule} from '@angular/http';
+
+	4.   in the app.module.ts augment the import for HttpModule  
+		  import {
+		  	  HttpModule
+		  }
+
+	5.  In your service 
+
+			import {Http,Response}  from '@angular/http'; 
+			import  {Observable} from 'rxjs';
+			http:Http= null; 
+			constructor(http:Http){
+				this.http = http; 
+			}
+	6.    in your service method 
+			getMovieTrailes ():Observable<Response>{
+				return this.get('url'); 
+			}
+
+
+	now back to your component 	
+	7.           handleClick(){
+		
+					myservice.getMoveTrailes().subscribe((data) => {
+							this.localmodelvar = data.json();
+					});
+				}
+
+
+
+
+	1.  import {HttpModule} from '@angular/http' (app.module.ts)
+	2.  imports [
+			HttpModule   // app.module.ts
+		]
+	3.  import {Http} from '@angular/http'   /// in your service ts file 
+	4.  constructor(http:Http){
+			this.http=http;				// in your service file 	
+		}
+	5.   getMovieTrailers(){
+			return  this.http.get('url(mocky)'); 	// in your service file	
+		}
+	6.   handleClick --->  in your component 
+				 this.yourservice.getMovieTrailers().subscribe((data)=>{
+				 	   this.somevar = data.json;
+				 }) ;	
+	7.      in your html   {{somevar.result}} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+If you wish to communicate the data between parent and child 
+you will need to use 
+
+@Output --> in the parent --> so that this property is exposed as 
+a binding property (Value)
+
+
+@Input on the child so that shis property is exposed as  bindable property
+(input)
+
+
+somewhereyou need to have the binding ..... 
+
+where ever you are using the child component ---> you are going to use 
+it as tag <app-xx> in the parent 
+<app-mycomponent ['to be different then var name']="test">
+// the @Input('to be different then var name')
+
+
+
+How does a parent communicate property to the child !!! 
+
+The parent has a property but this property should be a variable 
+that is declared generarlly  
+@Output 
+
+The child has property but this property should be variable declared 
+with annotation 
+@Input 
+
+The variable can different from the binding names 
+in the child you may have 
+x  but you want to bind it with a variable ---> y 
+@Input('y')  x:String 
+
+
+HomeComponent 
+
+@Output() homeVersion: Number = 2.0; 
+
+ChildComponent 
+@Input() homeVersion: Number; 
+    html  {{homeVersion}}	
+
+
+Where does the binding happen ? ...... 
+in the parent html where the child component is added in that 
+elment tag    [childProperty]=parentValue
+
+
+
+@Component({
+	selector : 'app-parent'
+})
+export class Parent {	
+	@Output() parentVersion:Number = 10.0;
+}
+parent-component.html 
+	<app-child   [parentVersion]='parentVersion'>
+
+@Component({
+	selector : 'app-child'	
+})
+export class Child{
+	@Input('parentVersion') versionNumber:Number
+}
+
+child-component.html 
+{{parentVersion}} // currently this will show no value .... 
+
+
+
+
+
+What is routing ........ 
+
+To enable route we need a route placeholder ---> 
+<router-outlet>
+	<!-- the corresponding component that needs to be shown whill be 
+	here --> 
+</router-outlet>
+
+To enable routes we also need dictionary 
+which router  =  what component .... 
+
+
+We need to marry the config to the angular router Modle 
+RouterModule.forRoot(routes)
+
+
+We are readt to use the roiuter 
+
+
+
+
+
+
+
+app.module.ts 
+
+const  router = [
+	{path : "" ,  component : }
+	{component :''}
+]
+
+
+i need to add the RouterModule 
+
+import {RouterModule}  from '@angular/router'; 
+
+
+import [
+
+	RouterModule.forRoot(routes)
+]
+
+
+
+linking the routers 
+
+	routerLinks 
+
+When you click a link the angular intercepts --> 
+Checks if the given link is available --> as a part of routes -- 
+if yes render the component in place of the router-outlet 
+else ooops (Default Component )
+
+
+
+
+
+
+
+
+1.  Enable the RouterModule by importing it in your 
+		app.module.ts 
+		import {RouterModule} from '@angular/router'; 
+2.   in the app module.... 
+		 define the routes 
+		 const routes = [
+		 	{ path: '' , component :  Component},
+		 	{ path:'' , component: Component },
+		 	{ path: '' ,  component: Component }
+		 ] 
+3.    in the import section of you  import 
+		imports  : [
+			RouterModule.forRoot(routes)
+		]
+4.  The  app.component.ts // or where ever you want your 
+	route outputs to be displayed you will add  
+		<router-outlet></router-outlet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.  Components 
+2.  Services 
+3.  How to create new applications 
+4.  RX observable 
+5.  how to use the @Component 
+6.  @Injectible
+7. angular.json
+6. ng g c / ng g s / 
+7. HttpMOdule , Http 
+8. RouterModule 
+9. Router Links How define routes 
+10. How to send message to other compents 
+11. {{ }} 
+12 ()  Events 
+13  [] binding 
+14.  There is a $event 
+15.  app.module.ts 
+16.  angular cli 
+17.  package.json 
+18.  npm install and using bootstrap 
+19.  Typescripting  interface, classes, functions , methods 
+	exports using the classes fiddrent 
+20.  ng build // ngix / iis / apache 
+21.  JSON services return json and sending json 
+22.  everything a part of the app-component (Root) 
+23.  we have we debug if web pack is enabled 
+24.  @input and @output 
+25.  We have used  a complete application with 
+		 ngIF ,  ngFor 
+
+
+
+How to write modules 
+  ng  g m   // creates a new module 
+  now once a module is create
+HOw to create components in your module 
+	 you will need to switch to the directory of the module from the 
+	 command line and then run 
+	 	ng g c --> to create the components and services 
+
+how to use these component outside your model
+	if you wish to make the component available to external modules 
+	other modules you must export the components 
+	else you will not be able to use the same 
+
+only exported components with import module can be used in other modules 
+
+
+
+
+
+
+
+
+
+
+npm install auth0-js // to add the authentication  api for authjs 
+
+ng g s   auth     // add auth service 
+
+in the app.component.ts 
+
+ constructor(public auth: AuthService) {
+    auth.handleAuthentication();
+  }
+
+  ngOnInit() {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      this.auth.renewTokens();
+    }
+  }
+
+ng  g  c  callback 
+ i must have a route callback 
+
+Test  With ngIf 
+
+
+
+
+
+
+
+
+1.   angular application 
+2.   components 
+
+
+When you write any application component , module , directive, service, or anything in angular   a default spec file is created..... 
+
+when you run ng test the spec file gets automatically scanned and executed 
+Karma / Jasmine
+
+Its not mandatory that it will test only  angular you can write your 
+own test cases 
+any file .spec.ts --- is considered as a valid  test case file 
+
+@describe('TestSuite', () =>  {
+	
+	//before
+	// before any test case runs this code will 
+
+	it('testcase1' , () => {
+
+
+	});
+
+
+
+	// after 
+	// after a test case is executed this will run 
+});
+
+How is a normal test case different from the  Angular Test Case 
+
+Angular Test case testing will rquired TestBed 
+
+What is a testbed .... : is a simulated angular runtime environment 
+that will allow you to create components like they get created in real world 
+
+
+You will needd to create a test bed 
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ TrailersComponent ],
+      imports : [
+        HttpModule,
+        HttpClientModule, 
+        RouterModule
+      ]
+    })
+    .compileComponents();
+  }));
+
+
+
+
+
+
+
+
+
+Create a new component 
+
+ng g c  SimpleComponent 
+
+simple.component.spec.ts 
+
+the test bed config is already there but what is not there 
+
+a) if you use a HttpClient in your Compoennt 
+you need to the TestBed that its being used 
+b) If you use an variable and want to test thme you will have to 
+	write your own test it()
+c) if you component uses other child components inside it or any dependenceis 
+	you will have declare that in the testbed 
+
+
+
+
+
+
+
+ng new testapp 
+
+class Employee 
+
+employee.spec.ts 
+
+describe("Employee", () => {	
+	beforeEach(() => {
+	})
+	it('' , () => {
+		expect(var).
+	})
+
+	afterEach(() => {
+	})
+});
+
+
+
+
+
+How to create your own directive : 
+
+ng  g  d   
+
+creates a directive 
+
+@Directive  
+
+@HostListener 
+@Input 
+
+constructor(private elem:ElementRef )
+
+[xxxx]=""
+
+
+
+Components 
+Services 
+Directives 
+Modules 
+Routes 
+	:- 
+	RouterGuard 
+angular-cli 
+
+
+
+
+
+RouterGaurd is Service 
+The Service Implements a extra Interrfce CanActivate
+
+
+{	
+	return true/false
+}
+
+Where and how do i use the routerGaurd 
+
+routes  {
+	
+	path 
+	component 
+	canativate : 
+}
+
+
+
+
+
+Components 
+Services 
+Directives 
+Bootstrap 
+Auth0 
+Routing 
+RouteGuards 
+Typescript 
+Http 
+HttpClient ---> Internceptors 
+
+
+1.  Android SDK 
+2.  Gradle 
+3.  Cordova 
+
+
+npm install -g cordova 
+
+SET ANDROID_HOME=c:\andriod\sdk 
+
+
+cordova new  app  
+
+it will give you a www  flder 
+
+you need copy ng build folder component 
+	to the  www  
+
+cordova build to run the apk 
+
+
+
+
+
+
+
+
+
+
+
+modules and nested routes or  
+module specific routes 
+
+
+1. For routing 
+
+	RouterModule 
+	Router (Class can be used to route to spefici urls )
+
+
+2.  Can i use routes (nested router )
+
+	Main page  
+		<router-outlet></router-outlet>
+
+
+	module 
+		components 
+			--->   <router-outlet></router-outlet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1.   How to handle events in compnonent 
+2.   $event 
+3.   nativeElement 
+4.   Components /Directives/ Services/Modules 
+5.   How to write  routes , router guards ,  
+6.   How to make use of external libaries ( bootstrap )
+7.   package.json and npm install 
+8.   ng cli   ng new , ng build , ng test  , ng serve , ng serve -o 
+9.   the ng  g  c   ng g s  ng g d  ,  ng g m
+10.  Imports ,  exports 
+11.  you understand the  typescript 
+	constructors 
+	interfaces 
+	classes 
+	intehetrence 
+	exports 
+	defining  functions 
+	methods 
+	new 
+12.   @Component,@injetible , @Directive , @Input , @Output, @HostListener ... 
+13.  Component [] () {{}} 
+14.  how to publish subscriber Subject , Subscriber , Pubslierh 
+	 Observable 
+15.   Http   how to make calls to http using the http Module 
+16.  HOw to write Test case  
+		normal case + test Bed 
+17.  You know everthing is nested appcomponent 
+18.  app.module.ts 
+		declarations 
+		imports 
+		providers 
+19.   angular.json (Style ,scritps ) 
+20.    DevDpendencies as well as the build dependencies 
+21.    Auth0js implementation 
+			auth0js   .login ---- Auth0 ---> App.component--> AuthiService ---> Token --> LocalLogin ---> 
+22.    ngIf ,  ngFor 
+23.    component has its own htmll and css 
+24.     Service and Dependency Injection 
+		@Optional with the injector if service is not available i will 
+			inject null if not it will give error if dont provide optional 
+25.    Directives and used the directive as they resusable 
+26.    You have seen  how to make use of typscript import in to you application  import {}  from '////'
+27.  You have ng test .. 
+28.  augury  is a client side debug tools to understand the behaviour 
+		of angular at the client side 
+29.  Your application can get converted to apk 
+		npm install cordova 
+		+  sdk 
+		+   gradle 
+
+		it gives a folder wwww  you need copy your code here .... 
+			
+		By default the web view will open you index.html
+
+30.   
+
+
+
+
+
+
+
+How to write a interceptor 
+1. Wrie Serice that service class should implement HttpInterceptor 
+		intercept 
+2.  in you app.module.ts ---> you will need to change the 
+	provider 
+	providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: MyInterceptor, multi: true}
+  ],
+
+3.  You will not be using HTTP Module becuase HTTP Module does not support interceptors 
+		HTTPClient Module Supports Interceptrs 
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
