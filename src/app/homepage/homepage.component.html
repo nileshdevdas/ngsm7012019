@@ -1,0 +1,9 @@
+<div appPopup></div>
+<app-movielists class="col-md-6" [nkey]="mykey"   [hversion]="homeVersion"></app-movielists>
+<app-moviewreviews class="col-md-6" ></app-moviewreviews>
+<app-trailers  class="col-md-12"  ></app-trailers>
+<div *ngIf="checkLogin()">
+    Loggedin
+</div>
+<app-test1>
+</app-test1>
